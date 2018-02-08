@@ -1,6 +1,6 @@
 {
   "name": "weighable",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Helps you with math for weights and stuff.",
   "main": "src/index.js",
   "scripts": {
