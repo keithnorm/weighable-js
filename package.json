@@ -1,0 +1,41 @@
+{
+  "name": "weighable",
+  "version": "0.0.1",
+  "description": "Helps you with math for weights and stuff.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "yarn jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenbits/weighable-js.git"
+  },
+  "keywords": [
+    "weight",
+    "weigh",
+    "gram",
+    "pound",
+    "ounce",
+    "kilogram",
+    "milligram"
+  ],
+  "author": "Andrew Katz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenbits/weighable-js/issues"
+  },
+  "homepage": "https://github.com/greenbits/weighable-js#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.2.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.17.0",
+    "jest": "^22.2.1",
+    "jest-cli": "^22.2.1"
+  },
+  "dependencies": {
+    "big.js": "^5.0.3",
+    "lodash": "^4.17.5"
+  }
+}
