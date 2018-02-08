@@ -1,21 +1,19 @@
 import Big from 'big.js';
-import Weight from '../src/weight';
 import {
+  Weight,
   GRAM,
   OUNCE,
   POUND,
   MILLIGRAM,
   KILOGRAM,
   UNIT,
-} from '../src/unit';
-import {
   grams,
   ounces,
   pounds,
   milligrams,
   kilograms,
   units,
-} from '../src/helpers';
+} from '../src';
 
 describe('Weight', () => {
   describe('constructor', () => {

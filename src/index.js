@@ -1,4 +1,4 @@
-export * from './units';
+export * from './unit';
 export * from './helpers';
 
 import Weight from './weight';
