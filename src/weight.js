@@ -100,6 +100,14 @@ export default class Weight {
     return ABBREVIATIONS[this.unit];
   }
 
+  get isUnit() {
+    return this.unit === UNIT;
+  }
+
+  get isWeight() {
+    return !this.isUnit;
+  }
+
   toString() {
     return _.trim(`${this.value} ${this.unitAbbreviation}`);
   }

@@ -654,4 +654,40 @@ describe('Weight', () => {
       expect(grams(1).toJSON()).toEqual({ value: '1', unit: GRAM });
     });
   });
+
+  describe('isUnit', () => {
+    describe('for a weight', () => {
+      it('returns false', () => {
+        expect(grams(1).isUnit).toEqual(false);
+        expect(ounces(1).isUnit).toEqual(false);
+        expect(pounds(1).isUnit).toEqual(false);
+        expect(milligrams(1).isUnit).toEqual(false);
+        expect(kilograms(1).isUnit).toEqual(false);
+      });
+    });
+
+    describe('for a unit', () => {
+      it('returns true', () => {
+        expect(units(1).isUnit).toEqual(true);
+      });
+    });
+  });
+
+  describe('isWeight', () => {
+    describe('for a weight', () => {
+      it('returns true', () => {
+        expect(grams(1).isWeight).toEqual(true);
+        expect(ounces(1).isWeight).toEqual(true);
+        expect(pounds(1).isWeight).toEqual(true);
+        expect(milligrams(1).isWeight).toEqual(true);
+        expect(kilograms(1).isWeight).toEqual(true);
+      });
+    });
+
+    describe('for a unit', () => {
+      it('returns true', () => {
+        expect(units(1).isWeight).toEqual(false);
+      });
+    });
+  });
 });
