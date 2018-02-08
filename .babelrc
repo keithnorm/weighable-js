@@ -1,4 +1,4 @@
 {
-  "presets": ["env", "react", "jest"],
+  "presets": ["env", "jest"],
   "retainLines": true
 }
