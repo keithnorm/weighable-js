@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/greenbits/weighable-js.git"
   },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
   "keywords": [
     "weight",
     "weigh",
@@ -26,6 +31,7 @@
   },
   "homepage": "https://github.com/greenbits/weighable-js#readme",
   "devDependencies": {
+    "babelify": "8",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.2.0",
     "babel-preset-env": "^1.6.1",
