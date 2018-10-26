@@ -1,7 +1,7 @@
 import Big from 'big.js';
-import _isUndefined from 'lodash.isundefined';
-import _isNull from 'lodash.isnull';
-import _trim from 'lodash.trim';
+import _isUndefined from 'lodash/isundefined';
+import _isNull from 'lodash/isnull';
+import _trim from 'lodash/trim';
 
 import {
   GRAM,
