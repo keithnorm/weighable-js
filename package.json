@@ -3,17 +3,13 @@
   "version": "0.1.0",
   "description": "Helps you with math for weights and stuff.",
   "main": "src/index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "yarn jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenbits/weighable-js.git"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
   },
   "keywords": [
     "weight",
@@ -29,9 +25,15 @@
   "bugs": {
     "url": "https://github.com/greenbits/weighable-js/issues"
   },
+  "babel": {
+    "presets": [
+      "env",
+      "jest"
+    ],
+    "retainLines": true
+  },
   "homepage": "https://github.com/greenbits/weighable-js#readme",
   "devDependencies": {
-    "babelify": "8",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.2.0",
     "babel-preset-env": "^1.6.1",

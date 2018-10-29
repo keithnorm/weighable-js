@@ -1,5 +1,8 @@
 import Big from 'big.js';
-import _ from 'lodash';
+import _isUndefined from 'lodash/isundefined';
+import _isNull from 'lodash/isnull';
+import _trim from 'lodash/trim';
+
 import {
   GRAM,
   OUNCE,
@@ -71,20 +74,20 @@ export default class Weight {
       throw 'Invalid argument: String expected';
     }
 
-    const parts = _.trim(string).split(' ');
+    const parts = _trim(string).split(' ');
 
     const value = parts[0];
     const abbreviation = parts[1];
 
     let unit;
 
-    if (_.isUndefined(abbreviation) || _.isNull(abbreviation)) {
+    if (_isUndefined(abbreviation) || _isNull(abbreviation)) {
       unit = UNIT;
     } else {
       unit = ABBREVIATION_ALIASES[abbreviation.toLowerCase()];
     }
 
-    if (_.isUndefined(value) ||_.isUndefined(unit)) {
+    if (_isUndefined(value) ||_isUndefined(unit)) {
       throw 'Invalid weight';
     }
 
@@ -109,7 +112,7 @@ export default class Weight {
   }
 
   toString() {
-    return _.trim(`${this.value} ${this.unitAbbreviation}`);
+    return _trim(`${this.value} ${this.unitAbbreviation}`);
   }
 
   toJSON() {
@@ -126,7 +129,7 @@ export default class Weight {
   to(unit) {
     const conversion = CONVERSIONS[this.unit][unit];
 
-    if (_.isUndefined(conversion)) {
+    if (_isUndefined(conversion)) {
       const fromUnit = UNIT_NAMES[this.unit];
       const toUnit = UNIT_NAMES[unit];
       throw `No conversion from ${fromUnit} to ${toUnit}`;
