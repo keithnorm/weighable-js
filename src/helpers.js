@@ -6,6 +6,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
 } from '../src/unit';
 
 const grams = (value) => {
@@ -28,6 +29,10 @@ const kilograms = (value) => {
   return new Weight(value, KILOGRAM);
 };
 
+const fluid_ounces = (value) => {
+  return new Weight(value, FLUID_OUNCE);
+}
+
 const units = (value) => {
   return new Weight(value, UNIT);
 };
@@ -39,4 +44,5 @@ export {
   milligrams,
   kilograms,
   units,
+  fluid_ounces,
 };

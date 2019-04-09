@@ -5,6 +5,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
 } from '../src/unit';
 
 describe('Unit', () => {
@@ -15,5 +16,6 @@ describe('Unit', () => {
     expect(MILLIGRAM).toEqual(3);
     expect(KILOGRAM).toEqual(4);
     expect(UNIT).toEqual(5);
+    expect(FLUID_OUNCE).toEqual(6);
   });
 });

@@ -10,6 +10,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
   UNIT_NAMES,
 } from './unit';
 import {
@@ -63,6 +64,8 @@ CONVERSIONS[KILOGRAM][OUNCE] = ['div', KILOGRAMS_PER_OUNCE];
 CONVERSIONS[KILOGRAM][POUND] = ['div', KILOGRAMS_PER_POUND];
 CONVERSIONS[KILOGRAM][MILLIGRAM] = ['times', KILOGRAMS_PER_MILLIGRAM];
 CONVERSIONS[KILOGRAM][KILOGRAM] = ['times', IDENTITY];
+CONVERSIONS[FLUID_OUNCE] = {};
+CONVERSIONS[FLUID_OUNCE][FLUID_OUNCE] = ['times', IDENTITY];
 
 function isWeight(object) {
   return object.constructor.name === 'Weight';
@@ -74,16 +77,18 @@ export default class Weight {
       throw 'Invalid argument: String expected';
     }
 
-    const parts = _trim(string).split(' ');
+    let unit, value;
+    const trimmed = _trim(string);
 
-    const value = parts[0];
-    const abbreviation = parts[1];
-
-    let unit;
-
-    if (_isUndefined(abbreviation) || _isNull(abbreviation)) {
+    // One character before the part of the string containing the unit
+    // Why not just split? Because it makes it more difficult to parse units with spaces
+    const unit_start = trimmed.indexOf(' ');
+    if (unit_start < 0) {
       unit = UNIT;
+      value = trimmed;
     } else {
+      value = trimmed.slice(0, unit_start);
+      const abbreviation = trimmed.slice(unit_start + 1);
       unit = ABBREVIATION_ALIASES[abbreviation.toLowerCase()];
     }
 
@@ -107,8 +112,12 @@ export default class Weight {
     return this.unit === UNIT;
   }
 
+  get isVolume() {
+    return this.unit === FLUID_OUNCE;
+  }
+
   get isWeight() {
-    return !this.isUnit;
+    return !(this.isUnit || this.isVolume);
   }
 
   toString() {

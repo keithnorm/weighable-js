@@ -5,6 +5,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
 } from './unit';
 
 const ABBREVIATIONS = {};
@@ -14,6 +15,7 @@ ABBREVIATIONS[POUND] = 'lb';
 ABBREVIATIONS[MILLIGRAM] = 'mg';
 ABBREVIATIONS[KILOGRAM] = 'kg';
 ABBREVIATIONS[UNIT] = '';
+ABBREVIATIONS[FLUID_OUNCE] = 'fl oz';
 
 const ABBREVIATION_ALIASES = {
   'g': GRAM,
@@ -43,6 +45,10 @@ const ABBREVIATION_ALIASES = {
   'units': UNIT,
   undefined: UNIT,
   null: UNIT,
+
+  'fl oz': FLUID_OUNCE,
+  'fluid ounce': FLUID_OUNCE,
+  'fluid ounces': FLUID_OUNCE,
 };
 
 export {

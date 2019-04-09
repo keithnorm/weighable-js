@@ -7,6 +7,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
 } from '../src/unit';
 import {
   grams,
@@ -15,6 +16,7 @@ import {
   milligrams,
   kilograms,
   units,
+  fluid_ounces,
 } from '../src/helpers';
 
 describe('grams', () => {
@@ -68,5 +70,14 @@ describe('units', () => {
 
     expect(weight.value).toEqual(new Big(2.33));
     expect(weight.unit).toEqual(UNIT);
+  });
+});
+
+describe('fluid ounces', () => {
+  it('creates a weight', () => {
+    const weight = fluid_ounces(2.33);
+
+    expect(weight.value).toEqual(new Big(2.33));
+    expect(weight.unit).toEqual(FLUID_OUNCE);
   });
 });

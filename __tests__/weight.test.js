@@ -7,12 +7,14 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
   grams,
   ounces,
   pounds,
   milligrams,
   kilograms,
   units,
+  fluid_ounces,
 } from '../src';
 
 describe('Weight', () => {
@@ -131,6 +133,12 @@ describe('Weight', () => {
       expect(Weight.parse('1.2 kilogram')).toEqual(new Weight(1.2, KILOGRAM));
       expect(Weight.parse('1.2 kilograms')).toEqual(new Weight(1.2, KILOGRAM));
     });
+
+    it('parses fluid ounces', () => {
+      expect(Weight.parse('1.2 fl oz')).toEqual(new Weight(1.2, FLUID_OUNCE));
+      expect(Weight.parse('1.2 fluid ounce')).toEqual(new Weight(1.2, FLUID_OUNCE));
+      expect(Weight.parse('1.2 fluid ounces')).toEqual(new Weight(1.2, FLUID_OUNCE));
+    });
   });
 
   describe('toString', () => {
@@ -141,6 +149,7 @@ describe('Weight', () => {
       expect(pounds('1.1').toString()).toEqual('1.1 lb');
       expect(kilograms('1.1').toString()).toEqual('1.1 kg');
       expect(milligrams('1.1').toString()).toEqual('1.1 mg');
+      expect(fluid_ounces('1.1').toString()).toEqual('1.1 fl oz');
     });
   });
 
@@ -184,6 +193,14 @@ describe('Weight', () => {
 
         expect(convert).toThrow('No conversion from gram to unit');
       });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from gram to fluid ounce');
+      });
     });
 
     describe('from ounce', () => {
@@ -219,6 +236,14 @@ describe('Weight', () => {
         }
 
         expect(convert).toThrow('No conversion from ounce to unit');
+      });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from ounce to fluid ounce');
       });
     });
 
@@ -256,6 +281,14 @@ describe('Weight', () => {
 
         expect(convert).toThrow('No conversion from pound to unit');
       });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from pound to fluid ounce');
+      });
     });
 
     describe('from milligram', () => {
@@ -292,6 +325,14 @@ describe('Weight', () => {
 
         expect(convert).toThrow('No conversion from milligram to unit');
       });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from milligram to fluid ounce');
+      });
     });
 
     describe('from kilogram', () => {
@@ -327,6 +368,14 @@ describe('Weight', () => {
         }
 
         expect(convert).toThrow('No conversion from kilogram to unit');
+      });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from kilogram to fluid ounce');
       });
     });
 
@@ -376,6 +425,70 @@ describe('Weight', () => {
       it('converts to unit', () => {
         testConversion(weight, UNIT, new Big('1'), new Big('1'));
       });
+
+      it('does not convert to fluid ounce', () => {
+        function convert() {
+          weight.to(FLUID_OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from unit to fluid ounce');
+      });
+    });
+  
+    describe('from fluid ounce', () => {
+      const weight = fluid_ounces(1);
+
+      it('does not convert to gram', () => {
+        function convert() {
+          weight.to(GRAM);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to gram');
+      });
+
+      it('does not convert to ounce', () => {
+        function convert() {
+          weight.to(OUNCE);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to ounce');
+      });
+
+      it('does not convert to pound', () => {
+        function convert() {
+          weight.to(POUND);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to pound');
+      });
+
+      it('does not convert to milligram', () => {
+        function convert() {
+          weight.to(MILLIGRAM);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to milligram');
+      });
+
+      it('does not convert to kilogram', () => {
+        function convert() {
+          weight.to(KILOGRAM);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to kilogram');
+      });
+
+      it('does not convert to unit', () => {
+        function convert() {
+          weight.to(UNIT);
+        }
+
+        expect(convert).toThrow('No conversion from fluid ounce to unit');
+      });
+
+      it('converts to fluid ounce', () => {
+        testConversion(weight, FLUID_OUNCE, new Big('1'), new Big('1'));
+      });
     });
   });
 
@@ -416,7 +529,7 @@ describe('Weight', () => {
         expect(weightGram.minus(weightOunce)).toEqual(grams('-27.14952'));
       });
 
-      it('does not subtrack two unlike unit types', () => {
+      it('does not subtract two unlike unit types', () => {
         function minusOne() {
           weightUnit.minus(weightGram);
         }
@@ -671,6 +784,12 @@ describe('Weight', () => {
         expect(units(1).isUnit).toEqual(true);
       });
     });
+
+    describe('for a volume', () => {
+      it('returns false', () => {
+        expect(fluid_ounces(1).isUnit).toEqual(false);
+      });
+    });
   });
 
   describe('isWeight', () => {
@@ -685,8 +804,38 @@ describe('Weight', () => {
     });
 
     describe('for a unit', () => {
-      it('returns true', () => {
+      it('returns false', () => {
         expect(units(1).isWeight).toEqual(false);
+      });
+    });
+
+    describe('for a volume', () => {
+      it('returns false', () => {
+        expect(fluid_ounces(1).isWeight).toEqual(false);
+      });
+    });
+  });
+
+  describe('isVolume', () => {
+    describe('for a weight', () => {
+      it('returns false', () => {
+        expect(grams(1).isVolume).toEqual(false);
+        expect(ounces(1).isVolume).toEqual(false);
+        expect(pounds(1).isVolume).toEqual(false);
+        expect(milligrams(1).isVolume).toEqual(false);
+        expect(kilograms(1).isVolume).toEqual(false);
+      });
+    });
+
+    describe('for a unit', () => {
+      it('returns false', () => {
+        expect(units(1).isVolume).toEqual(false);
+      });
+    });
+
+    describe('for a volume', () => {
+      it('returns true', () => {
+        expect(fluid_ounces(1).isVolume).toEqual(true);
       });
     });
   });
