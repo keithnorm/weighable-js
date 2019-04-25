@@ -194,12 +194,9 @@ describe('Weight', () => {
         expect(convert).toThrow('No conversion from gram to unit');
       });
 
-      it('does not convert to fluid ounce', () => {
-        function convert() {
-          weight.to(FLUID_OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from gram to fluid ounce');
+      it('converts to fluid ounce', () => {
+        const toValue = (new Big('1')).div(new Big('28.34952'));
+        testConversion(weight, FLUID_OUNCE, toValue, new Big('0.035273966'));
       });
     });
 
@@ -238,12 +235,8 @@ describe('Weight', () => {
         expect(convert).toThrow('No conversion from ounce to unit');
       });
 
-      it('does not convert to fluid ounce', () => {
-        function convert() {
-          weight.to(FLUID_OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from ounce to fluid ounce');
+      it('converts to fluid ounce', () => {
+        testConversion(weight, FLUID_OUNCE, new Big('1'), new Big('1'));
       });
     });
 
@@ -282,12 +275,9 @@ describe('Weight', () => {
         expect(convert).toThrow('No conversion from pound to unit');
       });
 
-      it('does not convert to fluid ounce', () => {
-        function convert() {
-          weight.to(FLUID_OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from pound to fluid ounce');
+      it('converts to fluid ounce', () => {
+        const toValue = (new Big('1')).times(new Big('16'));
+        testConversion(weight, FLUID_OUNCE, toValue, new Big('16'));
       });
     });
 
@@ -326,12 +316,9 @@ describe('Weight', () => {
         expect(convert).toThrow('No conversion from milligram to unit');
       });
 
-      it('does not convert to fluid ounce', () => {
-        function convert() {
-          weight.to(FLUID_OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from milligram to fluid ounce');
+      it('converts to fluid ounce', () => {
+        const toValue = (new Big('1')).div(new Big('28349.52'));
+        testConversion(weight, FLUID_OUNCE, toValue, new Big('0.000035274'));
       });
     });
 
@@ -370,12 +357,9 @@ describe('Weight', () => {
         expect(convert).toThrow('No conversion from kilogram to unit');
       });
 
-      it('does not convert to fluid ounce', () => {
-        function convert() {
-          weight.to(FLUID_OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from kilogram to fluid ounce');
+      it('converts to fluid ounce', () => {
+        const toValue = (new Big('1')).div(new Big('0.02834952'));
+        testConversion(weight, FLUID_OUNCE, toValue, new Big('35.273965838'));
       });
     });
 
@@ -438,44 +422,28 @@ describe('Weight', () => {
     describe('from fluid ounce', () => {
       const weight = fluid_ounces(1);
 
-      it('does not convert to gram', () => {
-        function convert() {
-          weight.to(GRAM);
-        }
-
-        expect(convert).toThrow('No conversion from fluid ounce to gram');
+      it('converts to gram', () => {
+        const toValue = (new Big('1')).times(new Big('28.34952'));
+        testConversion(weight, GRAM, toValue, new Big('28.34952'));
       });
 
-      it('does not convert to ounce', () => {
-        function convert() {
-          weight.to(OUNCE);
-        }
-
-        expect(convert).toThrow('No conversion from fluid ounce to ounce');
+      it('converts to ounce', () => {
+        testConversion(weight, OUNCE, new Big('1'), new Big('1'));
       });
 
-      it('does not convert to pound', () => {
-        function convert() {
-          weight.to(POUND);
-        }
-
-        expect(convert).toThrow('No conversion from fluid ounce to pound');
+      it('convers to pound', () => {
+        const toValue = (new Big('1')).div(new Big('16'));
+        testConversion(weight, POUND, toValue, new Big('0.0625'));
       });
 
-      it('does not convert to milligram', () => {
-        function convert() {
-          weight.to(MILLIGRAM);
-        }
-
-        expect(convert).toThrow('No conversion from fluid ounce to milligram');
+      it('converts to milligram', () => {
+        const toValue = (new Big('1')).times(new Big('28349.52'));
+        testConversion(weight, MILLIGRAM, toValue, new Big('28349.52'));
       });
 
-      it('does not convert to kilogram', () => {
-        function convert() {
-          weight.to(KILOGRAM);
-        }
-
-        expect(convert).toThrow('No conversion from fluid ounce to kilogram');
+      it('converts to kilogram', () => {
+        const toValue = (new Big('1')).times(new Big('0.02834952'));
+        testConversion(weight, KILOGRAM, toValue, new Big('0.02834952'));
       });
 
       it('does not convert to unit', () => {
