@@ -10,6 +10,7 @@ import {
   MILLIGRAM,
   KILOGRAM,
   UNIT,
+  FLUID_OUNCE,
   UNIT_NAMES,
 } from './unit';
 import {
@@ -28,7 +29,7 @@ const MILLIGRAMS_PER_OUNCE    = GRAMS_PER_OUNCE.times(MILLIGRAMS_PER_GRAM);
 const KILOGRAMS_PER_OUNCE     = GRAMS_PER_OUNCE.times(KILOGRAMS_PER_GRAM);
 const MILLIGRAMS_PER_POUND    = GRAMS_PER_POUND.times(MILLIGRAMS_PER_GRAM);
 const KILOGRAMS_PER_POUND     = GRAMS_PER_POUND.times(KILOGRAMS_PER_GRAM);
-const KILOGRAMS_PER_MILLIGRAM = MILLIGRAMS_PER_GRAM.pow(2);
+const MILLIGRAMS_PER_KILOGRAM = MILLIGRAMS_PER_GRAM.pow(2);
 
 const CONVERSIONS = {};
 CONVERSIONS[UNIT] = {};
@@ -39,30 +40,42 @@ CONVERSIONS[GRAM][OUNCE] = ['div', GRAMS_PER_OUNCE];
 CONVERSIONS[GRAM][POUND] = ['div', GRAMS_PER_POUND];
 CONVERSIONS[GRAM][MILLIGRAM] = ['times', MILLIGRAMS_PER_GRAM];
 CONVERSIONS[GRAM][KILOGRAM] = ['times', KILOGRAMS_PER_GRAM];
+CONVERSIONS[GRAM][FLUID_OUNCE] = ['div', GRAMS_PER_OUNCE];
 CONVERSIONS[OUNCE] = {};
 CONVERSIONS[OUNCE][GRAM] = ['times', GRAMS_PER_OUNCE];
 CONVERSIONS[OUNCE][OUNCE] = ['times', IDENTITY];
 CONVERSIONS[OUNCE][POUND] = ['div', OUNCES_PER_POUND];
 CONVERSIONS[OUNCE][MILLIGRAM] = ['times', MILLIGRAMS_PER_OUNCE];
 CONVERSIONS[OUNCE][KILOGRAM] = ['times', KILOGRAMS_PER_OUNCE];
+CONVERSIONS[OUNCE][FLUID_OUNCE] = ['times', IDENTITY];
 CONVERSIONS[POUND] = {};
 CONVERSIONS[POUND][GRAM] = ['times', GRAMS_PER_POUND];
 CONVERSIONS[POUND][OUNCE] = ['times', OUNCES_PER_POUND];
 CONVERSIONS[POUND][POUND] = ['times', IDENTITY];
 CONVERSIONS[POUND][MILLIGRAM] = ['times', MILLIGRAMS_PER_POUND];
 CONVERSIONS[POUND][KILOGRAM] = ['times', KILOGRAMS_PER_POUND];
+CONVERSIONS[POUND][FLUID_OUNCE] = ['times', OUNCES_PER_POUND];
 CONVERSIONS[MILLIGRAM] = {};
 CONVERSIONS[MILLIGRAM][GRAM] = ['div', MILLIGRAMS_PER_GRAM];
 CONVERSIONS[MILLIGRAM][OUNCE] = ['div', MILLIGRAMS_PER_OUNCE];
 CONVERSIONS[MILLIGRAM][POUND] = ['div', MILLIGRAMS_PER_POUND];
 CONVERSIONS[MILLIGRAM][MILLIGRAM] = ['times', IDENTITY];
-CONVERSIONS[MILLIGRAM][KILOGRAM] = ['div', KILOGRAMS_PER_MILLIGRAM];
+CONVERSIONS[MILLIGRAM][KILOGRAM] = ['div', MILLIGRAMS_PER_KILOGRAM];
+CONVERSIONS[MILLIGRAM][FLUID_OUNCE] = ['div', MILLIGRAMS_PER_OUNCE];
 CONVERSIONS[KILOGRAM] = {};
 CONVERSIONS[KILOGRAM][GRAM] = ['div', KILOGRAMS_PER_GRAM];
 CONVERSIONS[KILOGRAM][OUNCE] = ['div', KILOGRAMS_PER_OUNCE];
 CONVERSIONS[KILOGRAM][POUND] = ['div', KILOGRAMS_PER_POUND];
-CONVERSIONS[KILOGRAM][MILLIGRAM] = ['times', KILOGRAMS_PER_MILLIGRAM];
+CONVERSIONS[KILOGRAM][MILLIGRAM] = ['times', MILLIGRAMS_PER_KILOGRAM];
 CONVERSIONS[KILOGRAM][KILOGRAM] = ['times', IDENTITY];
+CONVERSIONS[KILOGRAM][FLUID_OUNCE] = ['div', KILOGRAMS_PER_OUNCE];
+CONVERSIONS[FLUID_OUNCE] = {};
+CONVERSIONS[FLUID_OUNCE][FLUID_OUNCE] = ['times', IDENTITY];
+CONVERSIONS[FLUID_OUNCE][OUNCE] = ['times', IDENTITY];
+CONVERSIONS[FLUID_OUNCE][GRAM] = ['times', GRAMS_PER_OUNCE];
+CONVERSIONS[FLUID_OUNCE][POUND] = ['div', OUNCES_PER_POUND];
+CONVERSIONS[FLUID_OUNCE][MILLIGRAM] = ['times', MILLIGRAMS_PER_OUNCE];
+CONVERSIONS[FLUID_OUNCE][KILOGRAM] = ['times', KILOGRAMS_PER_OUNCE];
 
 function isWeight(object) {
   return object.constructor.name === 'Weight';
@@ -74,16 +87,18 @@ export default class Weight {
       throw 'Invalid argument: String expected';
     }
 
-    const parts = _trim(string).split(' ');
+    let unit, value;
+    const trimmed = _trim(string);
 
-    const value = parts[0];
-    const abbreviation = parts[1];
-
-    let unit;
-
-    if (_isUndefined(abbreviation) || _isNull(abbreviation)) {
+    // One character before the part of the string containing the unit
+    // Why not just split? Because it makes it more difficult to parse units with spaces
+    const unit_start = trimmed.indexOf(' ');
+    if (unit_start < 0) {
       unit = UNIT;
+      value = trimmed;
     } else {
+      value = trimmed.slice(0, unit_start);
+      const abbreviation = trimmed.slice(unit_start + 1);
       unit = ABBREVIATION_ALIASES[abbreviation.toLowerCase()];
     }
 
@@ -107,8 +122,12 @@ export default class Weight {
     return this.unit === UNIT;
   }
 
+  get isVolume() {
+    return this.unit === FLUID_OUNCE;
+  }
+
   get isWeight() {
-    return !this.isUnit;
+    return !(this.isUnit || this.isVolume);
   }
 
   toString() {
