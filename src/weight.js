@@ -78,7 +78,7 @@ CONVERSIONS[FLUID_OUNCE][MILLIGRAM] = ['times', MILLIGRAMS_PER_OUNCE];
 CONVERSIONS[FLUID_OUNCE][KILOGRAM] = ['times', KILOGRAMS_PER_OUNCE];
 
 function isWeight(object) {
-  return object.constructor.name === 'Weight';
+  return object.unit && object.value;
 }
 
 export default class Weight {
