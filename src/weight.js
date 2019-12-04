@@ -78,7 +78,7 @@ CONVERSIONS[FLUID_OUNCE][MILLIGRAM] = ['times', MILLIGRAMS_PER_OUNCE];
 CONVERSIONS[FLUID_OUNCE][KILOGRAM] = ['times', KILOGRAMS_PER_OUNCE];
 
 function isWeight(object) {
-  return object.unit != 'undefined' && object.value != 'undefined';
+  return object.unit != undefined && object.value != undefined;
 }
 
 export default class Weight {
