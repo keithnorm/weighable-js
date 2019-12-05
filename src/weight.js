@@ -1,6 +1,6 @@
 import Big from 'big.js';
-import _isUndefined from 'lodash/isundefined';
-import _isNull from 'lodash/isnull';
+import _isUndefined from 'lodash/isUndefined';
+import _isNull from 'lodash/isNull';
 import _trim from 'lodash/trim';
 
 import {
